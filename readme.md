@@ -1,263 +1,194 @@
-SkillShare KZ
-SkillShare KZ — это веб-приложение на Next.js + Firebase, позволяющее школьникам и студентам создавать и проходить уроки, общаться, оставлять отзывы и развиваться сообща. Проект сочетает функционал онлайн-курсов, системы рейтинга, чата и геймификации, чтобы максимизировать вовлечённость и эффективность обучения.
+# SkillShare KZ
 
+**SkillShare KZ** — это современное образовательное веб-приложение, созданное на базе Next.js и Firebase. Платформа позволяет школьникам и студентам создавать и проходить уроки, общаться, делиться опытом и развиваться вместе. Проект сочетает в себе онлайн-курсы, рейтинги, отзывы, чат и элементы геймификации для повышения вовлечённости в обучение.
 
+---
 
+## 🚀 Основные функции
 
-Основные особенности
-Каталог уроков
+### 📚 Каталог уроков
+- Просмотр всех доступных курсов
+- Фильтрация по категориям и формату (синхронный / асинхронный)
+- Детальная страница урока с описанием, рейтингом и отзывами
 
-Фильтрация по категориям и формату проведения (sync / async)
+### 🔑 Аутентификация
+- Вход через Email/Password и Google OAuth (Firebase Auth)
+- Ролевая система: `admin`, `teacher`, `student`
 
-Просмотр детальной информации о каждом уроке: описание, рейтинг, отзывы
+### ⭐ Отзывы и рейтинг
+- Пользователи могут оставлять отзывы с рейтингом (1–5 звёзд)
+- Средний рейтинг отображается на карточке урока
+- Администраторы и авторы могут удалять отзывы
 
-Регистрация и авторизация
+### 💬 Чат участников
+- Firestore-based чат в реальном времени
+- Доступен только записанным участникам урока
+- (Планируется) уведомления о новых сообщениях через FCM
 
-Firebase Authentication (Email/Password, Google OAuth)
+### 🎮 Геймификация *(в разработке)*
+- Система баллов (points) за участие
+- Бейджи за достижения (создание, прохождение, отзывы)
+- Лидерборд /leaderboard
 
-Ролевая система (admin, teacher, student)
+### 🛠 Админ-панель *(в разработке)*
+- Управление пользователями, уроками и ролями
+- Модерация контента
 
-Отзывы и рейтинг
+---
 
-Пользователи могут оставлять отзывы о пройденных уроках (1–5 звёзд)
+## 🛠 Технологии
 
-Средняя оценка выводится на карточке урока
+- **Frontend**: Next.js (App Router), TypeScript
+- **UI**: Tailwind CSS, Framer Motion
+- **Icons**: React Icons / FontAwesome
+- **Backend**: Firebase
+  - Authentication
+  - Firestore (курсы, чаты, отзывы)
+  - Storage (медиафайлы)
+  - Cloud Messaging *(опционально)*
+- **Валидация форм**: react-hook-form
+- **Уведомления**: react-hot-toast
 
-Система удаления отзывов для автора или админа
+---
 
-Чат
+## 📁 Структура проекта
 
-Реальный чат в режиме реального времени (Firestore subcollection)
+```
+skillshare-kz/
+├─ src/
+│  ├─ app/               # Next.js App Router
+│  │  ├─ catalog/
+│  │  ├─ lessons/
+│  │  ├─ profile/
+│  │  ├─ login/
+│  │  ├─ register/
+│  │  └─ layout.tsx
+│  ├─ components/        # UI-компоненты
+│  │  ├─ Layout.tsx
+│  │  ├─ RatingStars.tsx
+│  │  ├─ ReviewForm.tsx
+│  │  ├─ ReviewList.tsx
+│  │  ├─ Chat.tsx
+│  ├─ contexts/
+│  │  └─ AuthContext.tsx
+│  ├─ hooks/
+│  ├─ lib/
+│  │  └─ firebase.ts
+│  ├─ types/
+├─ .env.local            # Firebase переменные
+├─ firestore.rules       # Безопасность Firestore
+├─ .gitignore
+├─ README.md
+└─ package.json
+```
 
-Доступен только записанным ученикам
+---
 
-Уведомления о новых сообщениях (опционально через Firebase Cloud Messaging)
+## 📦 Установка и запуск
 
-Геймификация (опционально)
+```bash
+# 1. Клонируйте репозиторий
+$ git clone https://github.com/Danchouvzv/skillshare.git
+$ cd skillshare
 
-Начисление очков (points) за активность и достижения
-
-Бейджи за прохождение уроков, написание отзывов, создание контента
-
-Лидерборд с топ-участниками
-
-Админ-панель (опционально)
-
-Управление уроками, пользователями, модерация контента
-
-Изменение ролей пользователей (student ↔ teacher ↔ admin)
-
-Стек технологий
-Frontend: Next.js (App Router) + TypeScript
-
-UI: Tailwind CSS, Framer Motion (анимации)
-
-Icons: react-icons или Font Awesome
-
-Backend: Firebase
-
-Auth — регистрация и вход
-
-Firestore — хранение уроков, отзывов, чатов
-
-Storage (опционально) — хранение медиафайлов (PDF/изображения/видео)
-
-Cloud Functions (опционально) — бизнес-логика (геймификация, уведомления)
-
-Уведомления: Firebase Cloud Messaging (опционально)
-
-Валидация форм: react-hook-form
-
-Уведомления (UI): react-hot-toast
-
-Установка и запуск
-Ниже приведены инструкции для локального запуска. Предполагается, что у вас установлены Node.js и npm или yarn.
-
-Клонируйте репозиторий:
-
-bash
-Копировать
-Редактировать
-git clone https://github.com/<your-username>/skillshare-kz.git
-cd skillshare-kz
-Установите зависимости:
-
-bash
-Копировать
-Редактировать
-npm install
+# 2. Установите зависимости
+$ npm install
 # или
-yarn install
-Настройте переменные окружения
-Создайте файл .env.local в корне проекта (или .env) и укажите ключи Firebase:
+$ yarn install
 
-bash
-Копировать
-Редактировать
+# 3. Добавьте .env.local
 NEXT_PUBLIC_FIREBASE_API_KEY=...
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=...
-Убедитесь, что .env* добавлены в .gitignore, чтобы не хранить ключи публично.
 
-Запуск в режиме разработки:
-
-bash
-Копировать
-Редактировать
-npm run dev
+# 4. Запуск проекта
+$ npm run dev
 # или
-yarn dev
-По умолчанию, приложение будет доступно по адресу: http://localhost:3000
+$ yarn dev
 
-Сборка и запуск на продакшен:
+# Доступ по адресу:
+http://localhost:3000
+```
 
-bash
-Копировать
-Редактировать
-npm run build
-npm run start
-(Команда build создаёт оптимизированную сборку, а start запускает её.)
+---
 
-Использование
-1. Регистрация и вход
-Перейдите на /register или /login.
+## 🏃 Быстрый старт
 
-Заполните необходимые поля. После входа вы будете перенаправлены на страницу профиля или главную.
+1. **Регистрация и вход** — /register, /login
+2. **Создание урока** — /lessons/create (доступно teacher/admin)
+3. **Каталог и фильтрация** — /catalog
+4. **Запись на урок** — на странице урока
+5. **Отзывы** — вкладка "Отзывы" после прохождения
+6. **Чат** — доступен после записи
+7. **Админка** — /admin (только для admin)
 
-2. Создание урока
-Авторизуйтесь под учителем (teacher) или админом (admin).
+---
 
-На /lessons/create заполните форму (название, описание, формат) и сохраните.
+## 🛡 Firestore Security Rules
 
-3. Просмотр каталога
-На /catalog вы найдёте список всех уроков.
-
-Можно искать уроки по категории, формату и ключевым словам.
-
-4. Запись на урок
-На странице урока нажмите «Записаться», если ещё есть свободные места.
-
-Получите доступ к чату и материалам.
-
-5. Оставление отзыва
-Пройдя урок, откройте вкладку «Отзывы» и заполните форму (рейтинг + комментарий).
-
-6. Админ-панель (при наличии)
-Если у вас роль admin, вы можете зайти на /admin для управления пользователями, уроками и жалобами.
-
-Firebase Security Rules
-Для корректной защиты данных в Firestore следует задать Security Rules:
-
-plaintext
-Копировать
-Редактировать
+```firestore
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Примеры хелпер-функций:
-    function isAuthenticated() { return request.auth != null; }
+    function isAuthenticated() {
+      return request.auth != null;
+    }
     function isAdmin() {
       return isAuthenticated() &&
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
-    ...
-    
-    // Пример: защита коллекции lessons
     match /lessons/{lessonId} {
       allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update: if isOwner(resource.data.teacherId) || isAdmin();
-      allow delete: if isOwner(resource.data.teacherId) || isAdmin();
-      
-      // Подколлекция отзывов
+      allow create, update, delete: if isAdmin();
       match /reviews/{reviewId} {
         allow read: if isAuthenticated();
-        allow create: if isEnrolled(lessonId);
-        ...
+        allow create: if isAuthenticated();
       }
     }
   }
 }
-Настройте правила под вашу конкретную бизнес-логику и роли.
+```
 
-Структура проекта
-bash
-Копировать
-Редактировать
-skillshare-kz/
-├─ src/
-│  ├─ app/
-│  │  ├─ layout.tsx       # Global layout (Next.js App Router)
-│  │  ├─ page.tsx         # Landing page
-│  │  ├─ catalog/
-│  │  ├─ lessons/
-│  │  ├─ login/
-│  │  ├─ register/
-│  │  └─ profile/
-│  ├─ components/
-│  │  ├─ Layout.tsx
-│  │  ├─ RatingStars.tsx
-│  │  ├─ ReviewForm.tsx
-│  │  ├─ ReviewList.tsx
-│  │  ├─ Chat.tsx
-│  │  └─ ...
-│  ├─ contexts/
-│  │  └─ AuthContext.tsx
-│  ├─ hooks/
-│  │  ├─ useAuth.ts
-│  │  ├─ useRole.ts
-│  │  └─ useFirebaseError.ts
-│  ├─ lib/
-│  │  └─ firebase.ts
-│  ├─ types/
-│  │  ├─ lesson.ts
-│  │  └─ review.ts
-│  └─ ...
-├─ .env.local             # Секретные ключи Firebase
-├─ .gitignore
-├─ package.json
-└─ README.md
-Готовые задачи / TODO
-[ ] Подключить геймификацию (баллы, бейджи, лидерборд)
+---
 
-[ ] Настроить уведомления через FCM (push messages)
+## 🗒 TODO
 
-[ ] Создать полноценную админ-панель /admin
+- [ ] Геймификация (баллы, бейджи, лидерборд)
+- [ ] Firebase Cloud Messaging (уведомления)
+- [ ] Админ-панель для управления
+- [ ] Поиск по ключевым словам (Algolia / Firestore индексы)
+- [ ] Поддержка многоязычности (i18n)
 
-[ ] Интегрировать расширенный поиск (через Algolia или Firestore индексы)
+---
 
-[ ] Добавить поддержку нескольких языков (i18n)
+## 📢 Вклад
 
-Вклад
-Мы приветствуем вклад сообщества. Если вы хотите внести изменения:
+Мы открыты к сотрудничеству! Чтобы внести вклад:
 
-Форкните репозиторий
+```bash
+# Форк проекта
+$ git clone https://github.com/ваш-аккаунт/skillshare.git
+$ git checkout -b feature/my-awesome-feature
 
-Создайте ветку: git checkout -b feature/new-amazing-feature
+# После правок
+$ git push origin feature/my-awesome-feature
+# И отправьте Pull Request
+```
 
-Внесите правки
+---
 
-Сделайте Pull Request, описав, какие задачи решает ваш PR
+## 📄 Лицензия
 
-Лицензия
-Этот проект распространяется под лицензией MIT (или другой на ваше усмотрение). Подробности читайте в файле LICENSE.
+Проект распространяется под лицензией **MIT**. См. файл `LICENSE`.
 
-Контакт
+---
 
+## 📩 Контакты
 
-Email: talgatovdaniyal@gmail.com
+**Email:** talgatovdaniyal@gmail.com
 
-
-
-Будем рады любым вопросам, предложениям и идеям по развитию SkillShare KZ!
-
-
-
-
-
-
+> Присоединяйтесь к развитию SkillShare KZ и сделаем обучение увлекательным вместе!
 
