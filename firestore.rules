@@ -1,0 +1,63 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isEnrolled(lessonId) {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/lessons/$(lessonId)/enrolledUsers/$(request.auth.uid));
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Lessons collection
+    match /lessons/{lessonId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.teacherId) || isAdmin();
+      allow delete: if isOwner(resource.data.teacherId) || isAdmin();
+      
+      // Enrolled users subcollection
+      match /enrolledUsers/{userId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated() && request.auth.uid == userId;
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+      
+      // Chat messages subcollection
+      match /messages/{messageId} {
+        allow read: if isEnrolled(lessonId);
+        allow create: if isEnrolled(lessonId);
+        allow update: if isOwner(resource.data.senderId);
+        allow delete: if isOwner(resource.data.senderId) || isAdmin();
+      }
+      
+      // Reviews subcollection
+      match /reviews/{reviewId} {
+        allow read: if isAuthenticated();
+        allow create: if isEnrolled(lessonId);
+        allow update: if isOwner(resource.data.userId);
+        allow delete: if isOwner(resource.data.userId) || isAdmin();
+      }
+    }
+  }
+} 
